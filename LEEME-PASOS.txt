@@ -1,0 +1,38 @@
+BOT DE FLYERS - TERMAS BUS
+Cuando un cliente te escribe, le llegan solos el saludo + los 6 flyers con su texto + "Cuál te interesa?".
+Si ya le mandó hace menos de 12 hs no repite, salvo que escriba "viajes", "precios", "info", "salidas", "catálogo" o "flyers".
+Si vos le contestás desde tu celular, el bot deja de mandarle (si Meta envía ese aviso).
+
+PASO 1 - Conectar tu número con la API (coexistencia)
+- business.facebook.com > Administrador de WhatsApp > agregar número > "Conectar una app de WhatsApp Business existente".
+- Seguís las pantallas y escaneás el QR desde tu app WhatsApp Business.
+- Anotá el "Identificador del número de teléfono" (Phone number ID). Es un número largo, NO es tu teléfono.
+
+PASO 2 - Token permanente
+- business.facebook.com > Configuración > Usuarios del sistema > crear uno (admin) > asignarle tu cuenta de WhatsApp > Generar token con permisos whatsapp_business_messaging y whatsapp_business_management > "Nunca" vence.
+- Copiá el token.
+
+PASO 3 - Subir el programa
+- Railway (el que ya usaste): proyecto nuevo > subir esta carpeta (o desde GitHub).
+- Variables (Variables):
+    WA_TOKEN     = el token del paso 2
+    WA_PHONE_ID  = el identificador del paso 1
+    WA_VERIFY    = termasbus   (o la palabra que quieras)
+- Generá el dominio público de Railway. Ejemplo: https://algo.up.railway.app
+
+PASO 4 - Avisarle a Meta
+- developers.facebook.com > tu app > WhatsApp > Configuración > Webhook:
+    URL de devolución de llamada: https://TU-DOMINIO/webhook
+    Token de verificación: el mismo WA_VERIFY
+- Suscribite a los campos: messages  y  smb_message_echoes (este último es el que avisa cuando respondés vos desde el celular).
+
+PASO 5 - Probar
+- Escribile "hola" a tu número desde OTRO teléfono. Tienen que llegar los 6 flyers en orden.
+- Si no llega: revisá los logs de Railway (se ve el error de Meta).
+
+CAMBIAR PRECIOS O FECHAS: editar los textos arriba de server.js (lista VIAJES). Para cambiar un flyer, reemplazar el archivo en la carpeta flyers con el mismo nombre.
+
+NOTAS
+- El mensaje de bienvenida de la app y las respuestas rápidas: desactivá el mensaje de bienvenida de la app para que no se duplique con el bot.
+- Las conversaciones que empieza el cliente (desde tus anuncios) no tienen costo de mensaje.
+- El registro de a quién ya se le mandó se guarda en un archivo; si Railway reinicia puede volver a mandar a alguien de las últimas horas.
