@@ -53,7 +53,7 @@ async function subirFlyer(archivo) {
   const fd = new FormData();
   fd.append('messaging_product', 'whatsapp');
   fd.append('type', 'image/jpeg');
-  fd.append('file', new Blob([fs.readFileSync(path.join(__dirname, 'flyers', archivo))], { type: 'image/jpeg' }), archivo);
+  fd.append('file', new Blob([fs.readFileSync(path.join(__dirname , archivo))], { type: 'image/jpeg' }), archivo);
   const j = await api(`${PHONE_ID}/media`, { method: 'POST', body: fd });
   mediaIds[archivo] = j.id;
   return j.id;
